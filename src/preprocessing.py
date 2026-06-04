@@ -1,3 +1,4 @@
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,15 +14,18 @@ from sklearn.model_selection import train_test_split
 import os
 import joblib
 
+
 # LOAD DATASET
 
 def load_dataset():
 
     try:
 
-        df = pd.read_csv("Datasets/city_day.csv")
+        df = pd.read_csv(
+            "Datasets/city_day.csv"
+        )
 
-        # Remove extra spaces from column names
+        # REMOVE EXTRA SPACES
         df.columns = df.columns.str.strip()
 
         print("\nDataset Loaded Successfully")
@@ -34,16 +38,21 @@ def load_dataset():
         return df
 
     except FileNotFoundError:
+
         print("Error: Dataset file not found")
 
     except pd.errors.EmptyDataError:
+
         print("Error: CSV file is empty")
 
     except pd.errors.ParserError:
+
         print("Error: Problem parsing CSV file")
 
     except Exception as e:
+
         print(f"Unexpected Error: {e}")
+
 
 # EDA
 
@@ -63,7 +72,8 @@ def perform_eda(df):
         print("\nDuplicate Rows Count:")
         print(df.duplicated().sum())
 
-        # Correlation Heatmap
+        # CORRELATION HEATMAP
+
         plt.figure(figsize=(12, 8))
 
         sns.heatmap(
@@ -72,24 +82,31 @@ def perform_eda(df):
             cmap="coolwarm"
         )
 
-        plt.title("Correlation Heatmap")
+        plt.title(
+            "Correlation Heatmap"
+        )
 
         plt.show()
 
     except Exception as e:
+
         print(f"EDA Error: {e}")
 
 
-# Data Cleaning 
+# DATA CLEANING
 
 def clean_data(df):
 
     try:
 
-        # Remove duplicates
-        df.drop_duplicates(inplace=True)
+        # REMOVE DUPLICATES
 
-        # Best features
+        df.drop_duplicates(
+            inplace=True
+        )
+
+        # SELECT FEATURES
+
         selected_features = [
 
             "PM2.5",
@@ -107,19 +124,24 @@ def clean_data(df):
             "AQI"
         ]
 
-        # Keep selected columns
+        # KEEP REQUIRED COLUMNS
+
         df = df[selected_features]
 
-        # Remove missing AQI rows
+        # REMOVE MISSING AQI ROWS
+
         df.dropna(
             subset=["AQI"],
             inplace=True
         )
 
-        # Fill numeric missing values
-        numeric_columns = df.select_dtypes(
-            include=np.number
-        ).columns
+        # FILL MISSING VALUES
+
+        numeric_columns = (
+            df.select_dtypes(
+                include=np.number
+            ).columns
+        )
 
         for col in numeric_columns:
 
@@ -127,24 +149,29 @@ def clean_data(df):
                 df[col].median()
             )
 
-        print("\nCleaned Dataset Shape:", df.shape)
+        print(
+            "\nCleaned Dataset Shape:",
+            df.shape
+        )
 
-        print("\nRemaining Null Values:")
+        print(
+            "\nRemaining Null Values:"
+        )
+
         print(df.isna().sum())
-
-        print("\nDataset Sample:")
-        print(df.head())
 
         return df
 
     except KeyError as e:
+
         print(f"Column Error: {e}")
 
     except Exception as e:
+
         print(f"Cleaning Error: {e}")
 
 
-# SAVING  PROCESSED DATA
+# SAVE PROCESSED DATA
 
 def save_processed_data(df):
 
@@ -160,7 +187,10 @@ def save_processed_data(df):
             "processed_city_day.csv"
         )
 
-        df.to_csv(processed_path, index=False)
+        df.to_csv(
+            processed_path,
+            index=False
+        )
 
         print(
             f"\nProcessed dataset saved to:"
@@ -168,6 +198,7 @@ def save_processed_data(df):
         )
 
     except Exception as e:
+
         print(f"Saving Error: {e}")
 
 
@@ -197,12 +228,16 @@ def create_aqi_bucket(df):
             else:
                 return "Severe"
 
-        # Create correct AQI categories
-        df["AQI_Bucket"] = df["AQI"].apply(
-            categorize_aqi
+        # CREATE AQI CATEGORY
+
+        df["AQI_Bucket"] = (
+            df["AQI"].apply(
+                categorize_aqi
+            )
         )
 
-        # Label Encoding
+        # LABEL ENCODING
+
         label_encoder = LabelEncoder()
 
         df["AQI_Bucket"] = (
@@ -211,13 +246,23 @@ def create_aqi_bucket(df):
             )
         )
 
-        print("\nAQI Bucket Created Successfully")
+        print(
+            "\nAQI Bucket Created Successfully"
+        )
 
         print("\nAQI Bucket Counts:")
-        print(df["AQI_Bucket"].value_counts())
 
-        # Save encoder
-        os.makedirs("models", exist_ok=True)
+        print(
+            df["AQI_Bucket"]
+            .value_counts()
+        )
+
+        # SAVE LABEL ENCODER
+
+        os.makedirs(
+            "models",
+            exist_ok=True
+        )
 
         joblib.dump(
             label_encoder,
@@ -227,7 +272,9 @@ def create_aqi_bucket(df):
         return df, label_encoder
 
     except Exception as e:
+
         print(f"Encoding Error: {e}")
+
 
 # SPLIT FEATURES AND TARGET
 
@@ -235,13 +282,22 @@ def split_features_target(df):
 
     try:
 
-        x = df.drop("AQI_Bucket", axis=1)
+        x = df.drop(
+            "AQI_Bucket",
+            axis=1
+        )
 
         y = df["AQI_Bucket"]
 
-        print("\nFeatures Shape:", x.shape)
+        print(
+            "\nFeatures Shape:",
+            x.shape
+        )
 
-        print("\nTarget Shape:", y.shape)
+        print(
+            "\nTarget Shape:",
+            y.shape
+        )
 
         x_train, x_test, y_train, y_test = (
             train_test_split(
@@ -253,7 +309,9 @@ def split_features_target(df):
             )
         )
 
-        print("\nTrain Test Split Completed")
+        print(
+            "\nTrain Test Split Completed"
+        )
 
         return (
             x_train,
@@ -263,33 +321,48 @@ def split_features_target(df):
         )
 
     except Exception as e:
+
         print(f"Split Error: {e}")
+
 
 # FEATURE SCALING
 
-def scale_features(x_train, x_test):
+def scale_features(
+    x_train,
+    x_test
+):
 
     try:
 
         scaler = StandardScaler()
 
-        x_train_scaled = scaler.fit_transform(
-            x_train
+        x_train_scaled = (
+            scaler.fit_transform(
+                x_train
+            )
         )
 
-        x_test_scaled = scaler.transform(
-            x_test
+        x_test_scaled = (
+            scaler.transform(
+                x_test
+            )
         )
 
-        # Save scaler
-        os.makedirs("models", exist_ok=True)
+        # SAVE SCALER
+
+        os.makedirs(
+            "models",
+            exist_ok=True
+        )
 
         joblib.dump(
             scaler,
             "models/scaler.pkl"
         )
 
-        print("\nFeature Scaling Completed")
+        print(
+            "\nFeature Scaling Completed"
+        )
 
         return (
             x_train_scaled,
@@ -298,6 +371,7 @@ def scale_features(x_train, x_test):
         )
 
     except Exception as e:
+
         print(f"Scaling Error: {e}")
 
 
@@ -313,7 +387,9 @@ def preprocess_data():
 
     save_processed_data(df)
 
-    df, label_encoder = create_aqi_bucket(df)
+    df, label_encoder = (
+        create_aqi_bucket(df)
+    )
 
     (
         x_train,
@@ -321,6 +397,13 @@ def preprocess_data():
         y_train,
         y_test
     ) = split_features_target(df)
+
+    # SAVE FEATURE COLUMNS
+
+    joblib.dump(
+        x_train.columns.tolist(),
+        "models/feature_columns.pkl"
+    )
 
     (
         x_train_scaled,
@@ -332,17 +415,23 @@ def preprocess_data():
     )
 
     return (
+
         x_train,
         x_test,
+
         x_train_scaled,
         x_test_scaled,
+
         y_train,
         y_test,
+
         label_encoder
     )
 
-#MAIN 
+
+# MAIN
 
 if __name__ == "__main__":
 
     preprocess_data()
+
