@@ -1,3 +1,7 @@
+import os
+
+from dotenv import load_dotenv
+
 from sqlalchemy import create_engine
 
 from sqlalchemy.orm import (
@@ -5,14 +9,29 @@ from sqlalchemy.orm import (
     declarative_base
 )
 
-DATABASE_URL=(
-    "postgresql://postgres:"
-    "vinay6789"
-    "@localhost:5433/"
-    "air_quality_db"
+# LOAD ENV FILE
+
+load_dotenv()
+
+# DATABASE URL
+
+DATABASE_URL = (
+
+    f"postgresql://"
+
+    f"{os.getenv('DB_USER')}:"
+
+    f"{os.getenv('DB_PASSWORD')}@"
+
+    f"{os.getenv('DB_HOST')}:"
+
+    f"{os.getenv('DB_PORT')}/"
+
+    f"{os.getenv('DB_NAME')}"
 )
 
-#engine 
+# ENGINE
+
 engine = create_engine(
     DATABASE_URL
 )

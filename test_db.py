@@ -1,6 +1,10 @@
 from database.database import engine
 
 try:
+    from database.database import (
+    DATABASE_URL
+    )
+
 
     connection = engine.connect()
 

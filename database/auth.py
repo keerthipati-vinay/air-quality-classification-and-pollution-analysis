@@ -1,3 +1,7 @@
+import os
+
+from dotenv import load_dotenv
+
 from datetime import (
     datetime,
     timedelta
@@ -22,6 +26,10 @@ from fastapi.security import (
     OAuth2PasswordBearer
 )
 
+# LOAD ENV VARIABLES
+
+load_dotenv()
+
 # PASSWORD HASHING
 
 pwd_context = CryptContext(
@@ -29,15 +37,21 @@ pwd_context = CryptContext(
     deprecated="auto"
 )
 
-# JWT SETTINGS
+# JWT SETTINGS FROM .ENV
 
-SECRET_KEY = (
-    "air_quality_project_secret_key"
+SECRET_KEY = os.getenv(
+    "SECRET_KEY"
 )
 
-ALGORITHM = "HS256"
+ALGORITHM = os.getenv(
+    "ALGORITHM"
+)
 
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = int(
+    os.getenv(
+        "ACCESS_TOKEN_EXPIRE_MINUTES"
+    )
+)
 
 # OAUTH2
 
