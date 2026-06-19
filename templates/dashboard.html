@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Air Quality Classification - Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
+    <script src="/static/js/auth.js"></script>
+
+    <script>
+        checkAuth();
+    </script>
+
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <h2>
+                Air Quality classification and pollution Analysis
+            </h2>
+
+            <button onclick="goToLanding()">
+                Home
+            </button>
+
+            <button onclick="goToDashboard()">
+                Dashboard
+            </button>
+
+            <button onclick="goToPredict()">
+                Predict
+            </button>
+
+            <button onclick="goToHistory()">
+                History
+            </button>
+            <button
+                id="adminBtn"
+                onclick="goToUsers()"
+                style="display:none;"
+            >
+                Manage Users
+            </button>
+
+            <button
+                class="logout-sidebar"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+        </div>
+
+        <!-- MAIN CONTENT -->
+
+        <div class="main-content">
+
+            <!-- HERO BANNER -->
+
+            <div class="banner">
+
+                <div class="banner-content">
+
+                    <span class="dashboard-tag">
+
+                        Air Quality Monitoring
+
+                    </span>
+
+                    <h1 id="welcomeBanner">
+                        Welcome Back
+                    </h1>
+
+                    <p>
+
+                        Monitor air quality conditions,
+                        view prediction results,
+                        and track historical records
+                        in one place.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- FEATURE CARDS -->
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+
+                    <h3>
+                        Predict AQI
+                    </h3>
+
+                    <p>
+
+                        Analyze air quality conditions
+                        using environmental data and
+                        view the predicted category.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <h3>
+                        Prediction History
+                    </h3>
+
+                    <p>
+
+                        Access all previous prediction
+                        records and review past results.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <h3>
+                        Monitor Trends
+                    </h3>
+
+                    <p>
+
+                        Observe changes in air quality
+                        conditions over time.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- INFORMATION SECTION -->
+
+            <div class="info-card">
+
+                <h2>
+                    Dashboard Features
+                </h2>
+
+                <ul>
+
+                    <li>
+                        Predict air quality levels using environmental measurements.
+                    </li>
+
+                    <li>
+                        View and manage previous prediction records.
+                    </li>
+
+                    <li>
+                        Track air quality conditions over time.
+                    </li>
+
+                    <li>
+                        Understand pollution categories and their impact.
+                    </li>
+
+                    <li>
+                        Access information through a simple and user-friendly dashboard.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+    <script src="/static/js/sidebar.js"></script>
+
+</body>
+
+</html>

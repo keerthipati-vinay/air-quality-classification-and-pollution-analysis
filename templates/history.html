@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Air Quality Classification - History
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+    <script src="/static/js/auth.js"></script>
+
+    <script>
+     checkAuth();
+    </script>
+
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <h2>
+                Air Quality classification and pollution Analysis
+            </h2>
+
+            <button onclick="goToLanding()">
+                Home
+            </button>
+
+            <button onclick="goToDashboard()">
+                Dashboard
+            </button>
+
+            <button onclick="goToPredict()">
+                Predict
+            </button>
+
+            <button onclick="goToHistory()">
+                History
+            </button>
+            
+            <button
+                id="adminBtn"
+                onclick="goToUsers()"
+                style="display:none;"
+            >
+                Manage Users
+            </button>
+
+            <button
+                class="logout-sidebar"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+        </div>
+        <!-- MAIN CONTENT -->
+
+        <div class="main-content">
+
+            <div class="container">
+
+                <h2>
+                    Prediction History
+                </h2>
+                <h3 id="welcomeUser">
+
+                    Welcome
+
+                </h3>
+
+                <div class="history-table-wrapper">
+
+                    <div id="historyTable"></div>
+                </div>
+                <div class="pagination">
+
+                    <button
+                        onclick="previousPage()"
+                    >
+                        Previous
+                    </button>
+
+                    <span id="pageNumber">
+                       Page 1
+                    </span>
+
+                    <button
+                        onclick="nextPage()"
+                    >
+                        Next
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="/static/js/history.js"></script>
+    <script src="/static/js/sidebar.js"></script>
+
+</body>
+
+</html>

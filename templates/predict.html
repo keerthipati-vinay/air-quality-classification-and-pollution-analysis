@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Air Quality Classification - Prediction
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+   <script src="/static/js/auth.js"></script>
+
+    <script>
+     checkAuth();
+    </script> 
+
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <h2>
+                Air Quality classification and pollution Analysis
+            </h2>
+
+            <button onclick="goToLanding()">
+                Home
+            </button>
+
+            <button onclick="goToDashboard()">
+                Dashboard
+            </button>
+
+            <button onclick="goToPredict()">
+                Predict
+            </button>
+
+            <button onclick="goToHistory()">
+                History
+            </button>
+
+            <button
+                class="logout-sidebar"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+        </div>
+        <!-- MAIN CONTENT -->
+
+        <div class="main-content">
+
+            <div class="container">
+
+                <h2>
+                    Air Quality Prediction
+                </h2>
+
+                <form
+                    id="predictForm"
+                    class="prediction-grid"
+                >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="PM2_5"
+                        min="0"
+                        placeholder="PM2.5"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="PM10"
+                        min="0"
+                        placeholder="PM10"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="NO"
+                        min="0"
+                        placeholder="NO"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="NO2"
+                        min="0"
+                        placeholder="NO2"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="NOx"
+                        min="0"
+                        placeholder="NOx"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="NH3"
+                        min="0"
+                        placeholder="NH3"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="CO"
+                        min="0"
+                        placeholder="CO"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="SO2"
+                        min="0"
+                        placeholder="SO2"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="O3"
+                        min="0"
+                        placeholder="O3"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="Benzene"
+                        min="0"
+                        placeholder="Benzene"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="Toluene"
+                        min="0"
+                        placeholder="Toluene"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="Xylene"
+                        min="0"
+                        placeholder="Xylene"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="AQI"
+                        min="0"
+                        placeholder="AQI"
+                        required
+                    >
+
+                    <div class="action-buttons">
+
+                        <button
+                            type="submit"
+                            class="predict-btn"
+                        >
+                            Predict
+                        </button>
+
+                        <button
+                            type="button"
+                            class="clear-btn"
+                            onclick="clearForm()"
+                        >
+                            Clear
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <div id="resultSection" >
+
+                    <hr>
+
+                    <h3>
+                        Prediction Result
+                    </h3>
+
+                    <p id="prediction"></p>
+
+                    <p id="confidence"></p>
+
+                    <div id="probabilities"></div>
+
+                    <h3>
+                        Health Recommendations
+                    </h3>
+
+                    <div id="recommendation"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="/static/js/predict.js"></script>
+    <script src="/static/js/sidebar.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Air Quality Classification -dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
+    <script src="/static/js/auth.js"></script>
+
+    <script>
+        checkAuth();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <h2>
+                Air Quality classification and pollution Analysis
+            </h2>
+
+            <button onclick="goToLanding()">
+                Home
+            </button>
+
+            <button onclick="goToDashboard()">
+                Dashboard
+            </button>
+
+            <button onclick="goToPredict()">
+                Predict
+            </button>
+
+            <button onclick="goToHistory()">
+                History
+            </button>
+            <button
+                id="adminBtn"
+                onclick="goToUsers()"
+                style="display:none;"
+            >
+                Manage Users
+            </button>
+
+            <button
+                class="logout-sidebar"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+        </div>
+
+        <!-- MAIN CONTENT -->
+
+        <div class="main-content">
+
+            <div class="container">
+
+                <h2>
+                    Analytics Dashboard
+                </h2>
+
+                <p
+                    style="
+                        text-align:center;
+                        margin-bottom:30px;
+                        color:#64748b;
+                    "
+                >
+                    Visualize air quality trends and
+                    prediction statistics through charts.
+                </p>
+                <div class="info-card">
+
+                    <h2>
+                        Air Quality Insights
+                    </h2>
+
+                    <p>
+
+                        This dashboard provides a visual overview
+                        of historical air quality predictions.
+                        Use the charts below to identify trends,
+                        monitor changes over time, and understand
+                        the distribution of air quality categories.
+                    </p>
+
+                </div>
+
+                <!-- AQI TREND CHART -->
+
+                <div class="chart-card">
+
+                    <h3>
+                        AQI Trend Analysis
+                    </h3>
+
+                    <canvas
+                        id="aqiTrend"
+                    ></canvas>
+
+                </div>
+
+                <!-- CATEGORY DISTRIBUTION -->
+
+                <div class="chart-card">
+
+                    <h3>
+                        Air Quality Category Distribution
+                    </h3>
+
+                    <canvas
+                        id="categoryChart"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script
+        src="/static/js/analytics.js"
+    ></script>
+    <script src="/static/js/sidebar.js"></script>
+
+</body>
+
+</html>
