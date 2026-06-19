@@ -2,7 +2,8 @@ from fastapi import (
     FastAPI,
     Depends,
     HTTPException,
-    status
+    status,
+    Request
 )
 from fastapi.security import (
     OAuth2PasswordRequestForm
@@ -27,7 +28,20 @@ from database.auth import (
     get_password_hash,
     verify_password,
     create_access_token,
-    get_current_user
+    get_current_user,
+    admin_required
+)
+
+from fastapi.responses import (
+    HTMLResponse
+)
+
+from fastapi.templating import (
+    Jinja2Templates
+)
+
+from fastapi.staticfiles import (
+    StaticFiles
 )
 
 
@@ -39,6 +53,32 @@ import joblib
 app=FastAPI(
     title="Air Quality Classification and pollution analysis API"
 )
+templates = Jinja2Templates(
+    directory="templates"
+)
+
+app.mount(
+    "/static",
+    StaticFiles(directory="static"),
+    name="static"
+)
+def no_cache(response):
+
+    response.headers[
+        "Cache-Control"
+    ] = "no-store"
+
+    response.headers[
+        "Pragma"
+    ] = "no-cache"
+
+    response.headers[
+        "Expires"
+    ] = "0"
+
+    return response
+
+
 
 #load saved files 
 model_info = joblib.load( "models/air_quality_model.pkl" ) 
@@ -71,13 +111,121 @@ class AirQualityInput(BaseModel):
     
 
 # Home route
-@app.get("/")
-def home():
-    return{
-        "message":
-            "Air Quality Classification and pollution analysis API Running "
-            
-    }
+@app.get(
+    "/",
+    response_class=HTMLResponse
+)
+def home(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="home.html"
+    )
+    
+# HTML PAGES
+
+@app.get(
+    "/login-page",
+    response_class=HTMLResponse
+)
+def login_page(
+    request: Request
+):
+
+   return templates.TemplateResponse(
+        request=request,
+        name="login.html"
+    )
+
+
+@app.get(
+    "/register-page",
+    response_class=HTMLResponse
+)
+def register_page(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="register.html"
+    )
+    
+@app.get(
+    "/landing-page",
+    response_class=HTMLResponse
+)
+def landing_page(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="dashboard.html"
+    )
+    return no_cache(
+        response
+    )
+
+@app.get(
+    "/dashboard",
+    response_class=HTMLResponse
+)
+def dashboard_page(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="analytics.html"
+    )
+    return no_cache(
+        response
+    )
+
+    
+@app.get(
+    "/predict-page",
+    response_class=HTMLResponse
+)
+def predict_page(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="predict.html"
+    )
+    return no_cache(
+        response
+    )
+
+@app.get(
+    "/history-page",
+    response_class=HTMLResponse
+)
+def history_page(
+    request: Request
+):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="history.html"
+    )
+    return no_cache(
+        response
+    )
+
+@app.get("/users-page")
+def users_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="users.html"
+    )
+
 
 #register 
 @app.post("/register")
@@ -119,7 +267,9 @@ def register_user(
 
         email=user.email,
 
-        hashed_password=hashed_password
+        hashed_password=hashed_password,
+
+        role=user.role
     )
 
     db.add(
@@ -190,8 +340,8 @@ def login_user(
         create_access_token(
 
             {
-                "sub":
-                db_user.username
+                "sub":db_user.username,
+                "role": db_user.role
             }
         )
     )
@@ -202,7 +352,9 @@ def login_user(
         access_token,
 
         "token_type":
-        "bearer"
+        "bearer",
+        "username": db_user.username,
+        "role": db_user.role
     }
 
     
@@ -285,7 +437,7 @@ def predict(
     db_user = db.query(
         User
     ).filter(
-        User.username ==current_user
+        User.username ==current_user["username"]
     ).first()
 
 # SAVE PREDICTION HISTORY
@@ -333,3 +485,160 @@ def predict(
         "all_classes_probabilities":
             class_probabilities
     }
+    
+@app.get("/history")
+def get_history(
+    page: int = 1,
+
+    page_size: int = 10,
+
+    current_user: str = Depends(
+        get_current_user
+    ),
+
+    db: Session = Depends(
+        get_db
+    )
+):
+
+    db_user = db.query(
+        User
+    ).filter(
+        User.username == current_user["username"]
+    ).first()
+
+    offset = (page - 1) * page_size
+
+    total_records = db.query(
+        PredictionHistory
+    ).filter(
+        PredictionHistory.user_id == db_user.id
+    ).count()
+
+    history = db.query(
+        PredictionHistory
+    ).filter(
+        PredictionHistory.user_id == db_user.id
+    ).offset(
+        offset
+    ).limit(
+        page_size
+    ).all()
+
+    result = []
+
+    for record in history:
+
+        result.append(
+
+            {
+                "AQI":record.AQI,
+                "predicted_category":record.predicted_category,
+                "confidence":record.confidence,
+                "created_at":record.created_at
+            }
+        )
+
+    return {
+
+        "username":db_user.username,
+
+        "history":result,
+
+        "total_records":total_records,
+
+        "page":page,
+
+        "page_size":page_size
+    }
+
+@app.get("/analytics")
+def analytics(
+
+    current_user: str = Depends(
+        get_current_user
+    ),
+
+    db: Session = Depends(
+        get_db
+    )
+):
+
+    db_user = db.query(
+        User
+    ).filter(
+        User.username == current_user["username"]
+    ).first()
+
+    history = db.query(
+        PredictionHistory
+    ).filter(
+        PredictionHistory.user_id == db_user.id
+    ).all()
+
+    category_counts = {}
+
+    for record in history:
+
+        category = record.predicted_category
+
+        category_counts[category] = (
+            category_counts.get(category,0) + 1
+        )
+
+    trend = []
+
+    for record in history:
+
+        trend.append({
+
+            "date":
+            record.created_at.strftime(
+                "%d-%b"
+            ),
+
+            "aqi":
+            record.AQI
+        })
+
+    return {
+
+        "categories":
+        category_counts,
+
+        "trend":
+        trend
+    }
+@app.get("/users")
+def get_all_users(
+
+    current_user = Depends(
+        admin_required
+    ),
+
+    db: Session = Depends(
+        get_db
+    )
+):
+
+    users = db.query(
+        User
+    ).all()
+
+    result = []
+
+    for user in users:
+
+        result.append({
+
+            "id": user.id,
+
+            "username": user.username,
+
+            "email": user.email,
+
+            "role": user.role
+        })
+
+    return result
+ 
