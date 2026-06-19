@@ -42,6 +42,10 @@ class User(Base):
         String,
         nullable=False
     )
+    role = Column(
+        String,
+        default="user"
+    )
 
     created_at = Column(
         DateTime(timezone=True),

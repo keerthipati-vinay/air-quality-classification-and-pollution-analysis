@@ -37,7 +37,7 @@ pwd_context = CryptContext(
     deprecated="auto"
 )
 
-# JWT SETTINGS FROM .ENV
+# JWT SETTINGS
 
 SECRET_KEY = os.getenv(
     "SECRET_KEY"
@@ -137,6 +137,10 @@ def verify_token(
             "sub"
         )
 
+        role = payload.get(
+            "role"
+        )
+
         if username is None:
 
             raise HTTPException(
@@ -148,7 +152,14 @@ def verify_token(
                 "Invalid Token"
             )
 
-        return username
+        return {
+
+            "username":
+            username,
+
+            "role":
+            role
+        }
 
     except JWTError:
 
@@ -173,3 +184,25 @@ def get_current_user(
     return verify_token(
         token
     )
+
+# ADMIN ONLY
+
+def admin_required(
+
+    current_user =
+    Depends(
+        get_current_user
+    )
+):
+
+    if current_user["role"] != "admin":
+
+        raise HTTPException(
+
+            status_code=403,
+
+            detail=
+            "Admin Access Required"
+        )
+
+    return current_user
