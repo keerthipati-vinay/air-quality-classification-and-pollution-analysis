@@ -21,7 +21,8 @@ from database.model import (
 
 from database.schema import (
     UserCreate,
-    UserLogin
+    UserLogin,
+    RoleUpdate
 )
 
 from database.auth import (
@@ -64,20 +65,14 @@ app.mount(
 )
 def no_cache(response):
 
-    response.headers[
-        "Cache-Control"
-    ] = "no-store"
+    response.headers["Cache-Control"] = \
+        "no-cache, no-store, must-revalidate"
 
-    response.headers[
-        "Pragma"
-    ] = "no-cache"
+    response.headers["Pragma"] = "no-cache"
 
-    response.headers[
-        "Expires"
-    ] = "0"
+    response.headers["Expires"] = "0"
 
     return response
-
 
 
 #load saved files 
@@ -157,74 +152,81 @@ def register_page(
     "/landing-page",
     response_class=HTMLResponse
 )
-def landing_page(
-    request: Request
-):
+def landing_page(request: Request):
 
-    return templates.TemplateResponse(
+    response = templates.TemplateResponse(
+
         request=request,
+
         name="dashboard.html"
+
     )
-    return no_cache(
-        response
-    )
+
+    return no_cache(response)
 
 @app.get(
     "/dashboard",
     response_class=HTMLResponse
 )
-def dashboard_page(
-    request: Request
-):
+def dashboard_page(request: Request):
 
-    return templates.TemplateResponse(
+    response = templates.TemplateResponse(
+
         request=request,
+
         name="analytics.html"
-    )
-    return no_cache(
-        response
+
     )
 
+    return no_cache(response)
     
 @app.get(
     "/predict-page",
     response_class=HTMLResponse
 )
-def predict_page(
-    request: Request
-):
+def predict_page(request: Request):
 
-    return templates.TemplateResponse(
+    response = templates.TemplateResponse(
+
         request=request,
+
         name="predict.html"
+
     )
-    return no_cache(
-        response
-    )
+
+    return no_cache(response)
 
 @app.get(
     "/history-page",
     response_class=HTMLResponse
 )
-def history_page(
-    request: Request
-):
+def history_page(request: Request):
 
-    return templates.TemplateResponse(
+    response = templates.TemplateResponse(
+
         request=request,
+
         name="history.html"
-    )
-    return no_cache(
-        response
+
     )
 
-@app.get("/users-page")
+    return no_cache(response)
+
+@app.get(
+    "/users-page",
+    response_class=HTMLResponse
+)
 def users_page(request: Request):
 
-    return templates.TemplateResponse(
+    response = templates.TemplateResponse(
+
         request=request,
+
         name="users.html"
+
     )
+
+    return no_cache(response)
 
 
 #register 
@@ -609,21 +611,23 @@ def analytics(
         "trend":
         trend
     }
+
 @app.get("/users")
 def get_all_users(
-
-    current_user = Depends(
-        admin_required
-    ),
-
-    db: Session = Depends(
-        get_db
-    )
+    page: int = 1,
+    page_size: int = 10,
+    current_user=Depends(admin_required),
+    db: Session = Depends(get_db)
 ):
 
-    users = db.query(
-        User
-    ).all()
+    total_users = db.query(User).count()
+
+    users = (
+        db.query(User)
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+        .all()
+    )
 
     result = []
 
@@ -632,13 +636,86 @@ def get_all_users(
         result.append({
 
             "id": user.id,
-
             "username": user.username,
-
             "email": user.email,
-
             "role": user.role
+
         })
 
-    return result
- 
+    return {
+
+        "users": result,
+        "page": page,
+        "page_size": page_size,
+        "total_users": total_users,
+        "total_pages": (total_users + page_size - 1) // page_size
+
+    }
+
+@app.put("/users/{user_id}/role")
+def update_user_role(
+
+    user_id: int,
+
+    role_data: RoleUpdate,
+
+    current_user=Depends(admin_required),
+
+    db: Session = Depends(get_db)
+):
+
+    user = db.query(
+        User
+    ).filter(
+        User.id == user_id
+    ).first()
+
+    if not user:
+
+        raise HTTPException(
+            status_code=404,
+            detail="User not found"
+        )
+
+    user.role = role_data.role
+
+    db.commit()
+
+    return {
+
+        "message":"Role Updated Successfully"
+
+    }
+
+@app.delete("/users/{user_id}")
+def delete_user(
+
+    user_id:int,
+
+    current_user=Depends(admin_required),
+
+    db:Session=Depends(get_db)
+):
+
+    user = db.query(
+        User
+    ).filter(
+        User.id == user_id
+    ).first()
+
+    if not user:
+
+        raise HTTPException(
+            status_code=404,
+            detail="User not found"
+        )
+
+    db.delete(user)
+
+    db.commit()
+
+    return{
+
+        "message":"User Deleted Successfully"
+
+    }

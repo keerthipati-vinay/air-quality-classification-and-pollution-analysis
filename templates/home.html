@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>
         Air Quality Classification & Pollution Analysis
@@ -12,49 +19,89 @@
         href="/static/css/home.css"
     >
 
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
 </head>
 
 <body>
 
     <div class="overlay">
 
-        <section class="hero">
+
+        <nav class="navbar">
+
+            <div class="logo">
+
+                <i class="fa-solid fa-leaf"></i>
+
+                <span>
+
+                    Air Quality AI
+
+                </span>
+
+            </div>
+
+        </nav>
+
+
+        <section
+            class="hero"
+            id="home"
+        >
 
             <div class="hero-left">
+
+                <div class="hero-tag">
+
+                    <i class="fa-solid fa-wind"></i>
+
+                    AI Powered Air Quality Monitoring
+
+                </div>
 
                 <h1>
 
                     Air Quality Classification
-                    & Pollution Analysis
+                    <br>
+
+                    <span>
+
+                        & Pollution Analysis
+
+                    </span>
 
                 </h1>
 
-                <p>
+                <p class="hero-description">
 
-                    Monitor air quality conditions,
-                    understand pollution levels,
-                    and make informed decisions
-                    for a healthier environment.
+                    Predict air quality using Machine Learning,
+                    monitor pollution trends, visualize historical
+                    data, and make informed decisions for a cleaner,
+                    healthier future.
 
                 </p>
 
-                <div class="features">
+                <div class="hero-buttons">
 
-                    <div class="feature">
-                        ✓ Air Quality Prediction
-                    </div>
+                    <button id="loginBtn">
 
-                    <div class="feature">
-                        ✓ Prediction History
-                    </div>
+                        <i class="fa-solid fa-right-to-bracket"></i>
 
-                    <div class="feature">
-                        ✓ Easy-to-Use Dashboard
-                    </div>
+                        Login
 
-                    <div class="feature">
-                        ✓ Secure User Access
-                    </div>
+                    </button>
+
+                    <button id="registerBtn">
+
+                        <i class="fa-solid fa-user-plus"></i>
+
+                        Register
+
+                    </button>
 
                 </div>
 
@@ -72,22 +119,18 @@
 
                     <p>
 
-                        Get started by logging in
-                        or creating a new account.
+                        Login or create an account
+                        to access prediction,
+                        history tracking and
+                        analytics dashboard.
 
                     </p>
 
-                    <button id="loginBtn">
+                    <div class="welcome-image">
 
-                        Login
+                        <i class="fa-solid fa-earth-asia"></i>
 
-                    </button>
-
-                    <button id="registerBtn">
-
-                        Register
-
-                    </button>
+                    </div>
 
                 </div>
 
@@ -95,10 +138,226 @@
 
         </section>
 
+        <section
+            class="features-section"
+            id="features"
+        >
+
+            <h2>
+
+                Project Features
+
+            </h2>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <i class="fa-solid fa-smog"></i>
+
+                    <h3>
+
+                        AQI Prediction
+
+                    </h3>
+
+                    <p>
+
+                        Predict air quality using
+                        advanced Machine Learning
+                        algorithms.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+
+                    <h3>
+
+                        Prediction History
+
+                    </h3>
+
+                    <p>
+
+                        Access previous predictions
+                        and monitor pollution
+                        trends over time.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <h3>
+
+                        Analytics Dashboard
+
+                    </h3>
+
+                    <p>
+
+                        Interactive dashboard with
+                        reports and visualization
+                        of prediction data.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fa-solid fa-user-shield"></i>
+
+                    <h3>
+
+                        Secure Authentication
+
+                    </h3>
+
+                    <p>
+
+                        Role-based authentication
+                        for Admin and Users with
+                        secure login.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="stats-section">
+
+            <div class="stat-card">
+
+                <h2>
+
+                    10+
+
+                </h2>
+
+                <p>
+
+                    Air Quality Parameters
+
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>
+
+                    ML
+
+                </h2>
+
+                <p>
+
+                    Machine Learning Powered
+
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>
+
+                    24/7
+
+                </h2>
+
+                <p>
+
+                    Monitoring
+
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>
+
+                    100%
+
+                </h2>
+
+                <p>
+
+                    Secure Login
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section
+            class="about-section"
+            id="about"
+        >
+
+            <h2>
+
+                About the Project
+
+            </h2>
+
+            <p>
+
+                Air Quality Classification &
+                Pollution Analysis is an AI-powered
+                web application developed using
+                FastAPI, PostgreSQL, HTML, CSS,
+                JavaScript and Machine Learning.
+                It predicts Air Quality Index
+                categories, stores prediction
+                history, provides interactive
+                dashboards, and includes secure
+                role-based authentication for
+                Users and Administrators.
+
+            </p>
+
+        </section>
+
         <footer>
 
-            © 2026 Air Quality Classification
-            & Pollution Analysis
+            <h3>
+
+                Air Quality Classification &
+                Pollution Analysis
+
+            </h3>
+
+            <p>
+
+                Powered by FastAPI |
+                PostgreSQL |
+                Machine Learning |
+                HTML |
+                CSS |
+                JavaScript
+
+            </p>
+
+            <p>
+
+                © 2026 All Rights Reserved.
+
+            </p>
 
         </footer>
 

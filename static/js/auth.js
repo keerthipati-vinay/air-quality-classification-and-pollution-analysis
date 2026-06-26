@@ -1,13 +1,21 @@
 function checkAuth(){
 
-    const token = localStorage.getItem(
-        "token"
-    );
+    const token = localStorage.getItem("token");
 
     if(!token){
 
-        window.location.replace(
-            "/login-page"
-        );
+        history.pushState(null, "", "/login-page");
+
+        window.location.replace("/login-page");
+
+        return;
     }
 }
+
+checkAuth();
+
+window.onpageshow = function () {
+
+    checkAuth();
+
+};

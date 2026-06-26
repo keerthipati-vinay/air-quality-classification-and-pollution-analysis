@@ -36,11 +36,10 @@ function goToHistory(){
 
 function logout(){
 
-    localStorage.removeItem(
-        "token"
-    );
-    
-    window.location.replace(
-        "/login-page"
-    );
+    localStorage.clear();
+
+    history.replaceState(null, "", "/login-page");
+
+    window.location.replace("/login-page");
+
 }

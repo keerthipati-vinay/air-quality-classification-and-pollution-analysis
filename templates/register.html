@@ -55,12 +55,29 @@
 
                 <span
                     class="toggle-password"
-                    onclick="togglePassword()"
+                    onclick="togglePassword('password')"
+                >
+                    👁
+                </span>
+            </div>
+            <div class="password-container">
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                >
+
+                <span
+                    class="toggle-password"
+                    onclick="togglePassword('confirmPassword')"
                 >
                     👁
                 </span>
 
             </div>
+
             <div class="password-rules">
                 <p>Minimum 8 characters</p>
                 <p>At least one uppercase letter (A-Z)</p>

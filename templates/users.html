@@ -21,11 +21,25 @@
         <div class="sidebar">
 
             <h2>
-                Admin Panel
+                Air Quality <br>
+                classification and <br>
+                Pollution Analysis
             </h2>
+
+            <button onclick="goToLanding()">
+                Home
+            </button>
 
             <button onclick="goToDashboard()">
                 Dashboard
+            </button>
+
+            <button onclick="goToPredict()">
+                Predict
+            </button>
+
+            <button onclick="goToHistory()">
+                History
             </button>
 
             <button onclick="goToUsers()">
@@ -52,12 +66,43 @@
                 <div id="usersTable"></div>
 
             </div>
+            <div class="pagination">
+
+                <button onclick="previousPage()">
+                    Previous
+                </button>
+
+                <span id="pageNumber">
+                    Page 1
+                </span>
+
+                <button onclick="nextPage()">
+                    Next
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
+    
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/sidebar.js"></script>
     <script src="/static/js/users.js"></script>
+    <script>
+        window.history.pushState(null, "", window.location.href);
+
+        window.onpopstate = function () {
+
+            window.history.pushState(
+                null,
+                "",
+                window.location.href
+            );
+
+        };
+    </script>
 
 </body>
 

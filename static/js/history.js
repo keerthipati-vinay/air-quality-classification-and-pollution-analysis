@@ -135,13 +135,12 @@ function goToHistory(){
 
 function logout(){
 
-    localStorage.removeItem(
-        "token"
-    );
+    localStorage.clear();
 
-    window.location.replace(
-        "/login-page"
-    );
+    history.replaceState(null, "", "/login-page");
+
+    window.location.replace("/login-page");
+
 }
 
 function nextPage(){

@@ -260,12 +260,12 @@ function goToAnalytics() {
     "/analytics-page";
 }
 
-function logout() {
+function logout(){
 
-    localStorage.removeItem(
-        "token"
-    );
+    localStorage.clear();
 
-    window.location.replace(
-        "/login-page");
+    history.replaceState(null, "", "/login-page");
+
+    window.location.replace("/login-page");
+
 }

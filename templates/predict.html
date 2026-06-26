@@ -11,11 +11,7 @@
         rel="stylesheet"
         href="/static/css/style.css"
     >
-   <script src="/static/js/auth.js"></script>
 
-    <script>
-     checkAuth();
-    </script> 
 
 </head>
 
@@ -45,6 +41,13 @@
 
             <button onclick="goToHistory()">
                 History
+            </button>
+            <button
+                id="adminBtn"
+                style="display:none;"
+                onclick="goToUsers()"
+            >
+                Manage Users
             </button>
 
             <button
@@ -235,8 +238,22 @@
 
     </div>
 
-    <script src="/static/js/predict.js"></script>
+    <script src="/static/js/auth.js"></script>
     <script src="/static/js/sidebar.js"></script>
+    <script src="/static/js/predict.js"></script>
+    <script>
+        window.history.pushState(null, "", window.location.href);
+
+        window.onpopstate = function () {
+
+            window.history.pushState(
+                null,
+                "",
+                window.location.href
+            );
+
+        };
+    </script>
 
 </body>
 

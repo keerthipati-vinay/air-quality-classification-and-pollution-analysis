@@ -1,15 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>
+
         Air Quality Classification - Login
+
     </title>
 
     <link
         rel="stylesheet"
         href="/static/css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
 </head>
@@ -18,24 +32,66 @@
 
     <div class="auth-container">
 
-        <h2>
-            Login
+        <!-- PROJECT HEADER -->
+
+        <div class="project-header">
+
+            <div class="project-icon">
+
+                <i class="fa-solid fa-leaf"></i>
+
+            </div>
+
+            <h1>
+
+                Air Quality Classification
+
+            </h1>
+
+            <h2>
+
+                & Pollution Analysis
+
+            </h2>
+
+            <p>
+
+                AI Powered Environmental Monitoring System
+
+            </p>
+
+        </div>
+
+        <hr class="login-divider">
+
+        <!-- LOGIN TITLE -->
+
+        <h2 class="login-title">
+
+            Welcome Back
+
         </h2>
 
         <p class="auth-subtitle">
 
-            Welcome back! Login to continue.
+            Sign in to continue to your dashboard.
 
         </p>
 
+        <!-- LOGIN FORM -->
+
         <form id="loginForm">
 
-            <input
-                type="text"
-                id="username"
-                placeholder="Username"
-                required
-            >
+            <div class="password-container">
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Username"
+                    required
+                >
+
+            </div>
 
             <div class="password-container">
 
@@ -55,7 +111,12 @@
 
             </div>
 
-            <button type="submit">
+            <button
+                type="submit"
+                class="login-btn"
+            >
+
+                <i class="fa-solid fa-right-to-bracket"></i>
 
                 Login
 
@@ -65,17 +126,21 @@
 
         <p id="message"></p>
 
-        <p class="auth-link">
+        <div class="auth-footer">
 
-            Don't have an account?
+            <p>
+
+                Don't have an account?
+
+            </p>
 
             <a href="/register-page">
 
-                Register
+                Create Account
 
             </a>
 
-        </p>
+        </div>
 
     </div>
 

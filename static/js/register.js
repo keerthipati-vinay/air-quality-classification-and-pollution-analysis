@@ -22,12 +22,19 @@ document
             "password"
         ).value;
 
+        const confirmPassword =
+        document.getElementById(
+            "confirmPassword"
+        ).value;
+
         const message =
         document.getElementById(
             "message"
         );
 
         message.innerText = "";
+
+        // USERNAME VALIDATION
 
         const usernameRegex =
         /^[a-zA-Z0-9_]{3,20}$/;
@@ -44,6 +51,8 @@ document
             return;
         }
 
+        // EMAIL VALIDATION
+
         const emailRegex =
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -58,6 +67,8 @@ document
 
             return;
         }
+
+        // PASSWORD VALIDATION
 
         const passwordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
@@ -74,6 +85,19 @@ document
             return;
         }
 
+        // CONFIRM PASSWORD VALIDATION
+
+        if(
+            password !==
+            confirmPassword
+        ){
+
+            message.innerText =
+            "Password and Confirm Password do not match.";
+
+            return;
+        }
+
         const userData = {
 
             username: username,
@@ -83,56 +107,71 @@ document
             password: password
         };
 
-        const response =
-        await fetch(
+        try{
 
-            "/register",
+            const response =
+            await fetch(
 
-            {
+                "/register",
 
-                method: "POST",
+                {
 
-                headers: {
+                    method: "POST",
 
-                    "Content-Type":
-                    "application/json"
-                },
+                    headers: {
 
-                body: JSON.stringify(
-                    userData
-                )
-            }
-        );
+                        "Content-Type":
+                        "application/json"
+                    },
 
-        const data =
-        await response.json();
-
-        message.innerText =
-        data.message ||
-        data.detail;
-
-        if(response.ok){
-
-            setTimeout(
-                () => {
-
-                    window.location.href =
-                    "/login-page";
-
-                },
-                1500
+                    body: JSON.stringify(
+                        userData
+                    )
+                }
             );
+
+            const data =
+            await response.json();
+
+            message.innerText =
+            data.message ||
+            data.detail;
+
+            if(response.ok){
+
+                setTimeout(
+
+                    () => {
+
+                        window.location.href =
+                        "/login-page";
+
+                    },
+
+                    1500
+                );
+            }
+
         }
+
+        catch(error){
+
+            message.innerText =
+            "Unable to connect to the server.";
+
+            console.error(error);
+        }
+
     }
 );
 
-function togglePassword(){
+// PASSWORD TOGGLE
+
+function togglePassword(id){
 
     const passwordField =
 
-    document.getElementById(
-        "password"
-    );
+    document.getElementById(id);
 
     if(
         passwordField.type ===
@@ -148,4 +187,5 @@ function togglePassword(){
         passwordField.type =
         "password";
     }
+
 }
